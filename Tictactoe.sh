@@ -10,7 +10,7 @@ rno=$((RANDOM%2))
 
 case $rno in
 	0)
-		player=0 ;;
+		player=o ;;
 	1)
-		player=1 ;;
+		player=x ;;
 esac
