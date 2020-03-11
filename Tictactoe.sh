@@ -46,9 +46,9 @@ function changeTurn() {
 
 function playerMove () {
 
-	flag=ture
+	flag=true
 
-	while [[ $flag == ture ]]
+	while [[ $flag == true ]]
 	do
 		read -p "Enter the position 1 to 9 : " pos
 
@@ -101,7 +101,7 @@ flag=false
 
 function main() {
 	printBoard
-	status=flag
+	status=$flag
 
 	read play1 play2 < <( toss )
 	echo $player1 $play1 $player2 $play2
