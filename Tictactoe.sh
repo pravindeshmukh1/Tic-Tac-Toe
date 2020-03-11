@@ -101,7 +101,7 @@ flag=false
 
 function main() {
 	printBoard
-	status=$flag
+	status=flag
 
 	read play1 play2 < <( toss )
 	echo $player1 $play1 $player2 $play2
