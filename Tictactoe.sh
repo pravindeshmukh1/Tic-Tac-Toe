@@ -3,7 +3,7 @@
 echo "Welcome to the Tic Tac Toe"
 
 declare -a gameBoard
-
+changeTurn=x
 gameBoard=(_ _ _ _ _ _ _ _ _)
 
 
@@ -21,7 +21,7 @@ function toss() {
 	esac
 	echo $player1 $player2
 }
-#toss
+
 
 function printBoard() {
 
@@ -33,10 +33,10 @@ function printBoard() {
 		row=$(($row+1))
 	done
 }
-#printBoard
+
 
 function changeTurn() {
-	if [ $1 == x ]
+	if [[ $1 == x ]]
 	then
 		changeTurn=o
 	else
@@ -45,14 +45,16 @@ function changeTurn() {
 }
 
 function playerMove () {
+
 	flag=ture
+
 	while [[ $flag == ture ]]
 	do
-		read -p "Enter the position 1 to 9 " pos
+		read -p "Enter the position 1 to 9 : " pos
 
-		if [[ $pos -le 9 && ${gameBoard[$(($pos-1))]}!=o && ${gameBoaed[$(($pos-1))]}!=x ]]
+		if (( $pos <= 9 && ${gameBoard[$pos-1]}!=x && ${gameBoard[$pos-1]}!=o ))
 		then
-			gameBoard[$((pos-1))]=$1
+			gameBoard[$(($pos - 1))]=$1
 			flag=false
 		else
 			echo "invalid Postion"
@@ -61,21 +63,80 @@ function playerMove () {
 	changeTurn $1
 }
 
-function main () {
-	printBoard
-	read play1 play2 < <( toss )
-echo  $play1 $play2
-echo "Main function"
+function checkWin() {
 
-	for ((i=1; i<=9; i++))
+row=0
+col=0
+diag1=0
+diag2=2
+flag=false
+
+	for ((i=0; i<3;i++))
+	do
+		if [[ ${gameBoard[$row]} == $1 && ${gameBoard[$((row=$row+1))]} == $1  && ${gameBoard[$((row=$row+1))]} == $1 ]]
+		then
+			flag=true
+			break
+		fi
+		if [[ ${gameBoard[$col]} == $1 && ${gameBoard[$((col=$col+3))]} == $1 && ${gameBoard[$((col=$col+3))]} == $1 ]]
+		then
+			flag=true
+			break
+		fi
+		if [[ ${gameBoard[$diag1]} == $1 && ${gameBoard[$((diag1=$diag1+4))]} == $1 && ${gameBoard[$((diag1=$diag1+4))]} == $1 ]]
+		then
+			flag=true
+			break
+		fi
+		if [[ ${gameBoard[$diag2]} == $1 && ${gameBoard[$((diag2=$diag2+2))]} == $1 && ${gameBoard[$((diag2=$diag2+2))]} == $1 ]]
+		then
+			flag=true
+			break
+		fi
+		row=$(( ($i+1) * 3 ))
+		col=$(( $i+1 ))
+	done
+	echo $flag
+}
+
+function main() {
+	printBoard
+	status=flag
+
+	read play1 play2 < <( toss )
+	echo $player1 $play1 $player2 $play2
+	echo "Main function"
+
+	for (( i=1;i<=${#gameBoard[@]};i++ ))
 	do
 		if [[ $play1 == $changeTurn ]]
 		then
 				playerMove $play1
+				printBoard
+				status=$( checkWin $play1 )
+				if	[[ $status == true ]]
+				then
+					echo "Player 1 win"
+					break
+				fi
 		else
 				playerMove $play2
-		fi
 				printBoard
+				status=$( checkWin $play2 )
+				if	[[ $status == true ]]
+				then
+					echo "Player 2 win"
+					break
+				fi
+		fi
+				#printBoard
 	done
+
+	if [[ $status == false ]]
+	then
+			echo "Game Tie"
+	fi
+
 }
 main
+
