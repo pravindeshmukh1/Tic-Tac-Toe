@@ -13,13 +13,13 @@ function toss() {
 
 	case $rno in
 		0)
-			player1=o
-			player2=x ;;
+			player=o
+			computer=x ;;
 		1)
-			player1=x
-			player2=o ;;
+			player=x
+			computer=o ;;
 	esac
-	echo $player1 $player2
+	echo $player $computer
 }
 
 
@@ -63,6 +63,19 @@ function playerMove () {
 	changeTurn $1
 }
 
+function computerMove() {
+
+	computerPos=$(( RANDOM%9 ))
+
+	if [[ ${gameBoard[$computerPos]} == x ]] || [[ ${gameBoard[$computerPos]} == o ]]
+	then
+		computerMove $1
+	else
+		gameBoard[$computerPos]=$1
+	fi
+		changeTurn $1
+}
+
 function checkWin() {
 
 row=0
@@ -103,40 +116,40 @@ function main() {
 	printBoard
 	status=flag
 
-	read play1 play2 < <( toss )
-	echo $player1 $play1 $player2 $play2
+	read player computer < <( toss )
+	echo " player $player computer $computer "
 	echo "Main function"
 
-	for (( i=1;i<=${#gameBoard[@]};i++ ))
+	for (( i=0;i<${#gameBoard[@]};i++ ))
 	do
-		if [[ $play1 == $changeTurn ]]
+		if [[ $player == $changeTurn ]]
 		then
-				playerMove $play1
+				playerMove $player
 				printBoard
-				status=$( checkWin $play1 )
+				status=$( checkWin $player )
 				if	[[ $status == true ]]
 				then
 					echo "Player 1 win"
 					break
 				fi
 		else
-				playerMove $play2
+			echo "Computer Turn "
+			 computerMove $computer
 				printBoard
-				status=$( checkWin $play2 )
+				status=$( checkWin $computer )
 				if	[[ $status == true ]]
 				then
-					echo "Player 2 win"
+					echo "Computer win"
 					break
 				fi
-		fi
-				#printBoard
-	done
 
+		fi
+			#printBoard
+	done
 	if [[ $status == false ]]
 	then
-			echo "Game Tie"
+	echo "Game Tie"
 	fi
-
 }
 main
 
