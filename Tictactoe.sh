@@ -1,4 +1,5 @@
 #!/bin/bash -x
+
 echo "Welcome to the Tic Tac Toe"
 
 declare -a gameBoard
@@ -323,7 +324,6 @@ function main() {
 				printBoard
 		fi
 	done
-
 	if [[ $status == false ]]
 	then
 		echo "Game Tie"
