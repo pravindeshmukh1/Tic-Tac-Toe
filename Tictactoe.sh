@@ -1,6 +1,5 @@
 #!/bin/bash -x
-
-echo "Welcome to the Tic Tac Toe "
+echo "Welcome to the Tic Tac Toe"
 
 declare -a gameBoard
 changeTurn=x
@@ -10,12 +9,11 @@ gameBoard=(_ _ _ _ _ _ _ _ _)
 mainFlag=false
 
 
-function toss(){
+function toss() {
 
-	toss=$((RANDOM%2))
+	rno=$((RANDOM%2))
 
-	case $toss in
-
+	case $rno in
 		0)
 			player=o
 			computer=x ;;
@@ -23,7 +21,6 @@ function toss(){
 			player=x
 			computer=o ;;
 	esac
-
 	echo $player $computer
 }
 
@@ -41,32 +38,32 @@ function printBoard() {
 
 	row=0
 	count=1
-	for (( i=0;i<3;i++ ))
+	for (( i=1;i<=3;i++ ))
 	do
-		echo " $((count++))| ${gameBoard[$row]} | $((count++))| ${gameBoard[$((row=$row+1))]} | $((count++))| ${gameBoard[$((row=$row+1))]} |"
+		echo "$((count++))| ${gameBoard[$row]} | $((count++))| ${gameBoard[$((row=$row+1))]} | $((count++))| ${gameBoard[$((row=$row+1))]} |"
 		row=$(($row+1))
 	done
 }
 
-function playerMove(){
+function playerMove() {
 
 	flag=true
 	while [[ $flag == true ]]
 	do
-		read -p "Enter the Position $1 " pos
+		read -p "Enter the position 1 to 9 : $1 " pos
 
-		if (( $pos <= 9 && ${gameBoard[$pos-1]}!=x &&  ${gameBoard[$pos-1]}!=o ))
+		if (( $pos <= 9 && ${gameBoard[$pos-1]}!=x && ${gameBoard[$pos-1]}!=o ))
 		then
 			gameBoard[$(($pos - 1))]=$1
 			flag=false
 		else
-			echo "invalide Position"
+			echo "invalid Position"
 		fi
 	done
-		changeTurn $1
+	changeTurn $1
 }
 
-function computerMove(){
+function computerMove() {
 
 	computerPos=$(( RANDOM%9 ))
 
@@ -79,7 +76,7 @@ function computerMove(){
 		changeTurn $1
 }
 
-function rowBlocker(){
+function rowBlocker() {
 
 	if [[ $1 == x ]]
 	then
@@ -128,7 +125,7 @@ function rowBlocker(){
 		changeTurn $2
 }
 
-function columnBlocker(){
+function columnBlocker() {
 
 	flag=true
 	for (( i=0;i<3;i++ ))
@@ -170,7 +167,7 @@ function columnBlocker(){
 	changeTurn $2
 }
 
-function diag1Blocker(){
+function diag1Blocker() {
 
 	flag=true
 	for (( i=0;i<9;i+=3 ))
@@ -213,7 +210,7 @@ function diag1Blocker(){
 }
 
 
-function diag2Blocker(){
+function diag2Blocker() {
 
 	flag=true
 	for (( i=0;i<9;i+=3 ))
@@ -251,7 +248,7 @@ function diag2Blocker(){
 		changeTurn $2
 }
 
-function checkWin(){
+function checkWin() {
 
 	row=0
 	col=0
@@ -266,31 +263,28 @@ function checkWin(){
 			flag=true
 			break
 		fi
-
 		if [[ ${gameBoard[$col]} == $1 && ${gameBoard[$((col=$col+3))]} == $1 && ${gameBoard[$((col=$col+3))]} == $1 ]]
 		then
 			flag=true
 			break
 		fi
-
 		if [[ ${gameBoard[$diag1]} == $1 && ${gameBoard[$((diag1=$diag1+4))]} == $1 && ${gameBoard[$((diag1=$diag1+4))]} == $1 ]]
 		then
 			flag=true
 			break
 		fi
-
 		if [[ ${gameBoard[$diag2]} == $1 && ${gameBoard[$((diag2=$diag2+2))]} == $1 && ${gameBoard[$((diag2=$diag2+2))]} == $1 ]]
 		then
 			flag=true
 			break
 		fi
-		row=$(( ($i + 1) * 3 ))
-		col=$(( $i + 1 ))
+		row=$(( ($i+1) * 3 ))
+		col=$(( $i+1 ))
 	done
-		echo $flag
+	echo $flag
 }
 
-function main(){
+function main() {
 
 	status=false
 	printBoard
@@ -299,7 +293,7 @@ function main(){
 	echo "Player $player Computer $computer"
 	echo "Main function"
 
-	for (( j=0;j<${#gameBoard[@]};j++ ))
+	for (( i=0;i<${#gameBoard[@]};i++ ))
 	do
 		if [[ $player == $changeTurn ]]
 		then
@@ -332,7 +326,7 @@ function main(){
 
 	if [[ $status == false ]]
 	then
-		echo "Game Tie.."
+		echo "Game Tie"
 	fi
 }
 main
