@@ -249,7 +249,7 @@ function diag2Blocker() {
 		changeTurn $2
 }
 
-function checkCorner(){
+function checkCorner() {
 
 	flag=true
 	for (( i=0;i<9;i++ ))
@@ -265,6 +265,19 @@ function checkCorner(){
 		fi
 	done
 
+	if [[ $flag == true ]]
+	then
+		checkCenter $1 $2
+	fi
+	changeTurn $2
+}
+
+function checkCenter() {
+
+	if [[ ${gameBoard[4]} != $1 && ${gameBoard[4]} != $2 ]]
+	then
+		gameBoard[4]=$2
+	fi
 	changeTurn $2
 }
 
