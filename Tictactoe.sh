@@ -61,13 +61,13 @@ function playerMove() {
 			echo "invalid Position"
 		fi
 	done
+	printBoard
 	changeTurn $1
 }
 
 function computerMove() {
 
 	computerPos=$(( RANDOM%9 ))
-
 	if [[ ${gameBoard[$computerPos]} == x ]] || [[ ${gameBoard[$computerPos]} == o ]]
 	then
 		computerMove $1
@@ -274,6 +274,7 @@ function checkCorner() {
 
 function checkCenter() {
 
+	flag=true
 	if [[ ${gameBoard[4]} != $1 && ${gameBoard[4]} != $2 ]]
 	then
 		gameBoard[4]=$2
@@ -301,7 +302,7 @@ function checkSides() {
 		fi
 	done
 
-	changeTurn $1
+	changeTurn $2
 }
 
 function checkWin() {
@@ -353,7 +354,7 @@ function main() {
 	do
 		if [[ $player == $changeTurn ]]
 		then
-			playerMove  $player
+			playerMove $player
 			status=$( checkWin $player )
 			if [[ $status == true ]]
 			then
@@ -365,7 +366,6 @@ function main() {
 			status=$( checkWin $computer )
 			if [[ $status == true ]]
 			then
-					printBoard
 					echo "Computer Win"
 					break
 			else
