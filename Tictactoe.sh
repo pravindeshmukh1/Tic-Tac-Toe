@@ -278,9 +278,32 @@ function checkCenter() {
 	then
 		gameBoard[4]=$2
 	fi
+	if [[ $flag == true ]]
+	then
+		checkSides $1 $2
+	fi
 	changeTurn $2
 }
 
+
+function checkSides() {
+
+	for ((i=0;i<9;i++))
+	do
+		if [[  $i%2!=0 && $i!=2 ]]
+		then
+			if [[ ${gameBoard[$i]} != $1 && ${gameBoard[$i] != $2} ]]
+			then
+				gameBoard[$i]=$2
+				flag=false
+				break
+			fi
+		fi
+	done
+
+	changeTurn $1
+
+}
 function checkWin() {
 
 	row=0
