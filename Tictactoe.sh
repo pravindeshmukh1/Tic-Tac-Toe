@@ -159,7 +159,7 @@ function columnBlocker() {
 function diag1Blocker() {
 
 	flag=true
-	for (( i=0;i<9;i+=3 ))
+	for (( i=0;i<6;i+=3 ))
 	do
 		if [[ ${gameBoard[$i]} == $1 && ${gameBoard[$i+4]} == $1 ]]
 		then
@@ -202,7 +202,7 @@ function diag1Blocker() {
 function diag2Blocker() {
 
 	flag=true
-	for (( i=0;i<9;i+=3 ))
+	for (( i=0;i<6;i+=3 ))
 	do
 		if [[ ${gameBoard[$i+2]} == $1 && ${gameBoard[$i+4]} == $1 ]]
 		then
