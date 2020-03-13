@@ -249,6 +249,38 @@ function diag2Blocker() {
 		changeTurn $2
 }
 
+function checkCorner() {
+
+	flag=true
+	for (( i=0;i<9;i++ ))
+	do
+		if (( $i%2==0 && $i!=4 ))
+		then
+			if [[ ${gameBoard[$i]} != $1 &&  ${gameBoard[$i]} != $2 ]]
+			then
+				gameBoard[$i]=$2
+				flag=false
+				break
+			fi
+		fi
+	done
+
+	if [[ $flag == true ]]
+	then
+		checkCenter $1 $2
+	fi
+	changeTurn $2
+}
+
+function checkCenter() {
+
+	if [[ ${gameBoard[4]} != $1 && ${gameBoard[4]} != $2 ]]
+	then
+		gameBoard[4]=$2
+	fi
+	changeTurn $2
+}
+
 function checkWin() {
 
 	row=0
@@ -319,7 +351,7 @@ function main() {
 
 			if [[ $mainFlag == false ]]
 			then
-				computerMove $computer
+				checkCorner $player $computer
 			fi
 				printBoard
 		fi
