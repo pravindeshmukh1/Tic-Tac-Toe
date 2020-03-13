@@ -64,19 +64,6 @@ function playerMove() {
 	changeTurn $1
 }
 
-function computerMove() {
-
-	computerPos=$(( RANDOM%9 ))
-
-	if [[ ${gameBoard[$computerPos]} == x ]] || [[ ${gameBoard[$computerPos]} == o ]]
-	then
-		computerMove $1
-	else
-		gameBoard[$computerPos]=$1
-	fi
-		changeTurn $1
-}
-
 function rowBlocker() {
 
 	if [[ $1 == x ]]
