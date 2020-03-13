@@ -65,18 +65,6 @@ function playerMove() {
 	changeTurn $1
 }
 
-function computerMove() {
-
-	computerPos=$(( RANDOM%9 ))
-	if [[ ${gameBoard[$computerPos]} == x ]] || [[ ${gameBoard[$computerPos]} == o ]]
-	then
-		computerMove $1
-	else
-		gameBoard[$computerPos]=$1
-	fi
-		changeTurn $1
-}
-
 function rowBlocker() {
 
 	if [[ $1 == x ]]
@@ -256,7 +244,7 @@ function checkCorner() {
 	do
 		if (( $i%2==0 && $i!=4 ))
 		then
-			if [[ ${gameBoard[$i]} != $1 &&  ${gameBoard[$i]} != $2 ]]
+			if [[ ${gameBoard[$i]} != $1 && ${gameBoard[$i]} != $2 ]]
 			then
 				gameBoard[$i]=$2
 				flag=false
@@ -278,6 +266,7 @@ function checkCenter() {
 	if [[ ${gameBoard[4]} != $1 && ${gameBoard[4]} != $2 ]]
 	then
 		gameBoard[4]=$2
+		flag=false
 	fi
 	if [[ $flag == true ]]
 	then
@@ -288,7 +277,7 @@ function checkCenter() {
 
 
 function checkSides() {
-
+	flag=true
 	for ((i=0;i<9;i++))
 	do
 		if (( $i%2!=0 && $i!=2 ))
@@ -366,6 +355,7 @@ function main() {
 			status=$( checkWin $computer )
 			if [[ $status == true ]]
 			then
+					printBoard
 					echo "Computer Win"
 					break
 			else
