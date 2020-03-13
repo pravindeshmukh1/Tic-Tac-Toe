@@ -290,9 +290,9 @@ function checkSides() {
 
 	for ((i=0;i<9;i++))
 	do
-		if [[  $i%2!=0 && $i!=2 ]]
+		if (( $i%2!=0 && $i!=2 ))
 		then
-			if [[ ${gameBoard[$i]} != $1 && ${gameBoard[$i] != $2} ]]
+			if [[ ${gameBoard[$i]} != $1 && ${gameBoard[$i]} != $2 ]]
 			then
 				gameBoard[$i]=$2
 				flag=false
@@ -302,8 +302,8 @@ function checkSides() {
 	done
 
 	changeTurn $1
-
 }
+
 function checkWin() {
 
 	row=0
